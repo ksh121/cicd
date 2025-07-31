@@ -57,6 +57,16 @@ jobs:
         script: |
           whoami
           ls -al
+
+    - name: Copy war file to remote
+      uses: appleboy/scp-action@master
+      with:
+        username: ${{ secrets.SERVER_USERNAME }}
+        host: ${{ secrets.SERVER_HOST }}
+        key: ${{ secrets.SERVER_KEY }}
+        source: "./build/libs/*.war"
+        target: "/home/ubuntu/deploy"
+        strip_components: 2
     
   dependency-submission:
 
@@ -76,3 +86,4 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+ 
